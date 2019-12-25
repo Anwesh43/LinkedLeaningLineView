@@ -15,12 +15,12 @@ import android.graphics.Color
 val nodes : Int = 5
 val rotation : Float = 45f
 val offset : Float = 0.8f
-val scGap : Float = 0.5f
 val lines : Int = 6
+val scGap : Float = 0.02f / lines
 val strokeFactor : Int = 90
 val foreColor : Int = Color.parseColor("#3F51B5")
 val backColor : Int = Color.parseColor("#BDBDBD")
-val delay : Long = 30
+val delay : Long = 20
 val sizeFactor : Float = 2.9f
 
 fun Int.inverse() : Float = 1f / this
@@ -48,7 +48,7 @@ fun Canvas.drawLeaningLines(scale : Float, w : Float, size : Float, paint : Pain
     for (j in 0..(lines - 1)) {
         drawLeaningLine(j, scale, gap, size, paint)
     }
-    drawLine(offsetW * (1 - sc), 0f, offsetW, 0f, paint)
+    drawLine((offsetW - gap) * (1 - sc), 0f, (offsetW - gap), 0f, paint)
     restore()
 }
 
@@ -57,6 +57,9 @@ fun Canvas.drawLLNode(i : Int, scale : Float, paint : Paint) {
     val h : Float = height.toFloat()
     val gap : Float = h / (nodes + 1)
     val size = gap / sizeFactor
+    paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
     save()
     translate(0f, gap * (i + 1))
     drawLeaningLines(scale, w, size, paint)
