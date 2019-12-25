@@ -217,4 +217,13 @@ class LeaningLineView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : LeaningLineView {
+            val view : LeaningLineView = LeaningLineView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
