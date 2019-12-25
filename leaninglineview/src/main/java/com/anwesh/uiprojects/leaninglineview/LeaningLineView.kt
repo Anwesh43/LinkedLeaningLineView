@@ -194,4 +194,26 @@ class LeaningLineView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : LeaningLineView) {
+
+        private val ll : LeaningLine = LeaningLine(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            ll.draw(canvas, paint)
+            animator.animate {
+                ll.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            ll.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
